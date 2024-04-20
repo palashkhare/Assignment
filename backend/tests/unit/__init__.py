@@ -8,5 +8,5 @@ class DevelopmentConfig(Config):
     DATABASE_URI = "sqlite:////tmp/foo.db"
 
 class TestingConfig(Config):
-    DATABASE_URI = 'sqlite:///:memory:'
+    DATABASE_URI = 'sqlite://test.db'
     TESTING = True
