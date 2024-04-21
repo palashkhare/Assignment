@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from sqlalchemy import MetaData
 # CORS
 
-from app.config import BASE_CONFIG, TEST_CONFIG, PROD_CONFIG, get_env_config
+from app.config import get_env_config
 
 # Configure db constraint naming convension
 db_constraint_naming = MetaData(
@@ -19,9 +19,11 @@ db_constraint_naming = MetaData(
 )
 
 db: SQLAlchemy = SQLAlchemy()
-rest_api: Api = Api(version='1.0', title='ANZ Bank assignment',
+rest_api: Api = Api(
+    version='1.0', title='ANZ Bank assignment',
     description='A demo code for book shelf management',
 )
+
 
 def create_app():
     app = Flask(__name__)
@@ -31,11 +33,11 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-    
         from app.endpoints.books.book import ns as books
         rest_api.add_namespace(books)
 
     return app
+
 
 flask_app = create_app()
 migrate = Migrate(flask_app, db=db)

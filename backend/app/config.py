@@ -6,6 +6,7 @@ class BASE_CONFIG:
     APP_HOST = "127.0.0.1"
     LOG_LEVEL = "ERROR"
 
+
 class TEST_CONFIG(BASE_CONFIG):
     ENV = "TEST"
     SQLALCHEMY_DATABASE_URI = "sqlite:////home/kanika/workspace/anzBooks/tmp/test.sqlite"
@@ -15,7 +16,8 @@ class TEST_CONFIG(BASE_CONFIG):
     SSO_APP_ID = "ABCD-1234-9988"
     SSO_APP_TOKEN = "JGHG^$&^%YFGJGFEWFZ"
     APP_PORT = 5000
-    LOG_LEVEL="DEBUG"
+    LOG_LEVEL = "DEBUG"
+
 
 class PROD_CONFIG(BASE_CONFIG):
     ENV = "PROD"
@@ -28,8 +30,9 @@ class PROD_CONFIG(BASE_CONFIG):
     SSO_APP_TOKEN = "JGHG^$&^%YFGJGFEWFZ"
     APP_PORT = 5005
 
+
 def get_env_config():
     env = os.environ.get("EXECUTION_ENV")
-    if isinstance(env, str) and env.upper()=="PROD":
+    if isinstance(env, str) and env.upper() == "PROD":
         return PROD_CONFIG
     return TEST_CONFIG
