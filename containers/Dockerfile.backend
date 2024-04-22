@@ -1,0 +1,28 @@
+FROM python:3.9
+
+WORKDIR /backend
+
+COPY backend/. .
+
+RUN mkdir -p /fs
+
+RUN pip install -r requirements.txt
+
+ENV EXECUTION_ENV="TEST"
+ENV DB_URI="sqlite:///dummytest.sqlite"
+ENV BASE_DIR="/fs"
+
+ENV LOG_LEVEL="INFO"
+
+# ONLY PROD Mode Relevant
+ENV APP_THREADS=2
+
+ENV APP_PORT=5000
+ENV APP_HOST=0.0.0.0
+
+# SECRETS
+ENV SECRET_KEY="HF^%76FGF%+@(*GH)LJHGF"
+
+EXPOSE ${APP_PORT}
+
+ENTRYPOINT [ "bash", "runner.sh" ]

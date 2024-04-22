@@ -3,6 +3,8 @@ from sqlalchemy import func
 
 from app.core.model import Book
 from app.core.interfaces import DBInterface
+from app.core.exceptions import DBError
+
 from app import db
 
 
@@ -16,8 +18,11 @@ class DBAdapter(DBInterface):
 
     def save_book(self, book: Book):
         with current_app.app_context():
-            db.session.add(book)
-            db.session.commit()
+            try:
+                db.session.add(book)
+                db.session.commit()
+            except Exception as e:
+                raise DBError(str(e))
 
     def get_books_by(self, value: str):
         with current_app.app_context():

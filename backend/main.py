@@ -27,6 +27,7 @@ def configure_dependency_injection(
 if __name__ == "__main__":
 
     logger = logging.getLogger(__name__)
+    logging.basicConfig(format='%(asctime)s %(message)s')
 
     if flask_app.config["ENV"] == PROD_CONFIG.ENV:
         # PROD CONFIG

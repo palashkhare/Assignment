@@ -3,6 +3,7 @@ import inject
 from flask_restx import Resource, Namespace
 from flask import request
 
+from app.core.exceptions import DBError, ApiBadRequest
 from app.core.interfaces.application import BaseApplication
 from app.core.model import book_schema
 from app.core.api.post import post_book
@@ -27,10 +28,13 @@ class BookShelf(Resource):
     @ns.expect(post_book, validate=True)
     @inject.autoparams()
     def post(self, app: BaseApplication):
-        book = book_schema.load(
-            request.json, transient=True
-        )
-        app.add_book(book)
+        try:
+            book = book_schema.load(
+                request.json, transient=True
+            )
+            app.add_book(book)
+        except DBError as e:
+            raise ApiBadRequst("Data can not be processed.")
 
 
 @ns.route("/cnt_by_category")
