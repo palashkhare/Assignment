@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  backend:
+    image: backend:latest
+    container_name: apiServer
+    environment:
+      - EXECUTION_ENV=PROD
+      - DB_URI=postgresql://test_user:psw12345@db_container:5432/anz_db
+      - BASE_DIR=/fs
+      - APP_THREADS=2
+      - APP_PORT=5000
+      - APP_HOST=0.0.0.0
+    ports:
+      - 5000:5000
+    network_mode: default
+    links:
+      - db_container
+    depends_on:
+      - db_container
+    deploy:
+      replicas: 1
+    volumes:
+      - app_storage:/fs
+
+  db_container:
+    container_name: db_container
+    image: postgres:14
+    ports:
+     - 5430:5432
+    expose:
+      - 5432
+    volumes:
+      - app_db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: psw12345
+      POSTGRES_DB: anz_db
+    network_mode: default
+volumes:
+  app_db:
+  app_storage:
